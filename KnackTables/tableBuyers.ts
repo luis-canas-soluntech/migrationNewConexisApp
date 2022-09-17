@@ -161,9 +161,8 @@ export interface Knackbuyers {
 }
 
 //* response of the get to knack
-// let res:Knackbuyers ={
-//   field_1: 4
-// }
+//let res:Knackbuyers =//fetch()
+//console.log(res[buyersEnum.client_company_name])
 
 //*how to make the object to inset values into postgres from the knack response
 // export const buyerTable = {

@@ -3,10 +3,12 @@
 //file to migrate the buyers table from knack to postgres
 
 import { objectTables } from "../KnackTables/objectIDs";
+import { buyersEnum } from "../KnackTables/tableBuyers";
+import prisma from "../prismaClient";
 import fetchRest from "../util/fetchRest";
 import logger from "../util/winstonLogger";
 
-const baseUrl = `https://api.knack.com/v1/objects/${objectTables.Buyers}/records`;
+const baseUrl = `https://api.knack.com/v1/objects/${objectTables.account_worker}/records`;
 
 const getOptions = {
   method: "GET",
@@ -68,7 +70,25 @@ export const buyersMigrate = async () => {
         if (true) {
           console.log("record", record);
 
-          //TODO: INSERT TO POSTGRES
+          //TODO: INSERT TO POSTGRES the records
+
+          // const createMany = await prisma.buyers.createMany({
+          //   data: [
+          //     {
+          //       name: res[buyersEnum.client_company_name],
+          //       email: res[buyersEnum.client_company_name],
+          //     },
+          //     {
+          //       name: res[buyersEnum.client_company_name],
+          //       email: res[buyersEnum.client_company_name],
+          //     }, // Duplicate unique key!
+          //     {
+          //       name: res[buyersEnum.client_company_name],
+          //       email: res[buyersEnum.client_company_name],
+          //     },
+          //   ],
+          //   //skipDuplicates: true, // Skip 'Bobo'
+          // });
         }
         count += 1;
       }
@@ -78,6 +98,7 @@ export const buyersMigrate = async () => {
     logger.info("count of recors page 1 " + count);
 
     if (res["total_pages"] > 1) {
+      return; //TODO: DELETE RETURN AFTER TESTING
       for (let pages = 2; pages <= res["total_pages"]; pages++) {
         let url =
           baseUrl +

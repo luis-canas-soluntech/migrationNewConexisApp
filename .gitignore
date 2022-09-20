@@ -2,3 +2,5 @@
 
 #ignore the log files log.combined.log and log.error.log
 *.log
+
+.env

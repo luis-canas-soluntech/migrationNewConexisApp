@@ -53,3 +53,8 @@ export type connection = {
   id: string; //"59107c47f34acf2f78e59cb9";
   identifier: string; //"Kieran Storton";
 }[];
+
+export type userRoles = string[];
+
+export type profile_keys = { id: string; identifier: string };
+[];

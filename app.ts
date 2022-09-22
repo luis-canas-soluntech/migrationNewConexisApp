@@ -10,6 +10,7 @@ const init = async () => {
     //*run migrating scripts in order of creation, so we can search and put the appropiate conections/foreign keys
     // USE KNACKID AS PRIMARY KEY IF WE CAN GUARAUNTEE THAT IT WILL NEVER COLLIDE WITH POSTGRESS KEY ALGORITHM
     //accounts user tables
+    //await accountsMigrate();
     await buyersMigrate(); //depends only on users accounts for the connections
     await new Promise((resolve) => setTimeout(resolve, 1000));
     //  }

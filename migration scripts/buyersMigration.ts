@@ -8,7 +8,7 @@ import prisma from "../prismaClient";
 import fetchRest from "../util/fetchRest";
 import logger from "../util/winstonLogger";
 
-const baseUrl = `https://api.knack.com/v1/objects/${objectTables.account_worker}/records`;
+const baseUrl = `https://api.knack.com/v1/objects/${objectTables.Buyers}/records`;
 
 const getOptions = {
   method: "GET",

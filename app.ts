@@ -1,4 +1,5 @@
 import { buyersMigrate } from "./migration scripts/buyersMigration";
+import { suppliersMigrate } from "./migration scripts/suppliersMigration";
 import fetchRest from "./util/fetchRest";
 import logger from "./util/winstonLogger";
 
@@ -11,7 +12,8 @@ const init = async () => {
     // USE KNACKID AS PRIMARY KEY IF WE CAN GUARAUNTEE THAT IT WILL NEVER COLLIDE WITH POSTGRESS KEY ALGORITHM
     //accounts user tables
     //await accountsMigrate();
-    await buyersMigrate(); //depends only on users accounts for the connections
+    //await buyersMigrate(); //depends only on users accounts for the connections
+    await suppliersMigrate(); //depends only on users accounts for the connections
     await new Promise((resolve) => setTimeout(resolve, 1000));
     //  }
   } catch (error) {

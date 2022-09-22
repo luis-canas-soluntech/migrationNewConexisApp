@@ -5,7 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.buyersMigrate = void 0;
 const objectIDs_1 = require("../KnackTables/objectIDs");
-const tableBuyers_1 = require("../KnackTables/tableBuyers");
 const fetchRest_1 = __importDefault(require("../util/fetchRest"));
 const winstonLogger_1 = __importDefault(require("../util/winstonLogger"));
 const baseUrl = `https://api.knack.com/v1/objects/${objectIDs_1.objectTables.Buyers}/records`;
@@ -16,7 +15,7 @@ const getOptions = {
         "X-Knack-REST-API-Key": "7c433960-b653-11e6-85b4-a3aef326e6fd",
     },
 };
-let buyers_rule_list = {
+let buyers = {
     "7251246CanadaInc.": "migrate",
     AcmeMSP: "ignore",
     "A.CLighting": "archive",
@@ -94,39 +93,43 @@ const buyersMigrate = async () => {
             "&rows_per_page=" +
             1000;
         let res = await (0, fetchRest_1.default)(url, getOptions, 4);
-        let records = res.records;
         let count = 0;
-        if (records.length) {
-            for (let index = 0; index < records.length; index++) {
-                const record = records[index];
+        if (res.records.length) {
+            for (let index = 0; index < res.records.length; index++) {
+                const record = res.records[index];
                 if (true) {
-                    console.log(record[tableBuyers_1.buyersEnum.client_company_name]);
-                    winstonLogger_1.default.info(`migrating ${record[tableBuyers_1.buyersEnum.client_company_name]} to postgres`);
-                    winstonLogger_1.default.info(` action ${buyers_rule_list[record[tableBuyers_1.buyersEnum.client_company_name]]}`);
-                    if (record[tableBuyers_1.buyersEnum.client_company_name] &&
-                        buyers_rule_list[record[tableBuyers_1.buyersEnum.client_company_name].replace(/\s/g, "")]) {
-                        console.log(buyers_rule_list[record[tableBuyers_1.buyersEnum.client_company_name].replace(/\s/g, "")]);
-                        let currentRule = buyers_rule_list[record[tableBuyers_1.buyersEnum.client_company_name].replace(/\s/g, "")];
-                        if (currentRule === "migrate") {
-                            console.log("migrate");
-                        }
-                        else if (currentRule === "ignore") {
-                            console.log("ignore");
-                        }
-                        else if (currentRule === "archive") {
-                            console.log("archive");
-                        }
-                    }
-                    else {
-                        winstonLogger_1.default.error(` ${record[tableBuyers_1.buyersEnum.client_company_name]} no rule for this buyer record`);
-                        console.log(` ${record[tableBuyers_1.buyersEnum.client_company_name]} no rule for this buyer record`);
-                    }
+                    console.log("record", record);
                 }
                 count += 1;
             }
         }
         console.log("count of recors page 1  ", count);
         winstonLogger_1.default.info("count of recors page 1 " + count);
+        if (res["total_pages"] > 1) {
+            return;
+            for (let pages = 2; pages <= res["total_pages"]; pages++) {
+                let url = baseUrl +
+                    "?filters=" +
+                    encodeURIComponent(JSON.stringify(filters)) +
+                    "&page=" +
+                    pages +
+                    "&rows_per_page=" +
+                    1000;
+                res = await (0, fetchRest_1.default)(url, getOptions, 4);
+                let count = 0;
+                if (res.records.length) {
+                    for (let index = 0; index < res.records.length; index++) {
+                        const record = res.records[index];
+                        if (true) {
+                            console.log("record", record);
+                        }
+                        count += 1;
+                    }
+                }
+                console.log("page: ", pages, "count ", count);
+                winstonLogger_1.default.info("page: " + pages + "count " + count);
+            }
+        }
         await new Promise((resolve) => setTimeout(resolve, 1000));
     }
     catch (error) {
@@ -135,4 +138,4 @@ const buyersMigrate = async () => {
     }
 };
 exports.buyersMigrate = buyersMigrate;
-//# sourceMappingURL=buyersMigration.js.map
+//# sourceMappingURL=generalMigration.js.map

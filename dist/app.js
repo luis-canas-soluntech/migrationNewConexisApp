@@ -3,12 +3,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const buyersMigration_1 = require("./migration scripts/buyersMigration");
+const suppliersMigration_1 = require("./migration scripts/suppliersMigration");
 const winstonLogger_1 = __importDefault(require("./util/winstonLogger"));
 const init = async () => {
     const MY_NAMESPACE = "1b671a64-40d5-491e-99b0-da01ff1f3341";
     try {
-        await (0, buyersMigration_1.buyersMigrate)();
+        await (0, suppliersMigration_1.suppliersMigrate)();
         await new Promise((resolve) => setTimeout(resolve, 1000));
     }
     catch (error) {

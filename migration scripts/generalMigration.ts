@@ -3,7 +3,7 @@
 //file to migrate the buyers table from knack to postgres
 
 import { objectTables } from "../KnackTables/objectIDs";
-import { buyersEnum, Knackbuyers } from "../KnackTables/tableBuyers";
+import { buyersEnum } from "../KnackTables/tableBuyers";
 import prisma from "../prismaClient";
 import fetchRest from "../util/fetchRest";
 import logger from "../util/winstonLogger";
@@ -19,7 +19,7 @@ const getOptions = {
   // body: JSON.stringify(data)
 };
 
-let buyers_rule_list = {
+let buyers = {
   "7251246CanadaInc.": "migrate",
   AcmeMSP: "ignore",
   "A.CLighting": "archive",
@@ -125,90 +125,36 @@ export const buyersMigrate = async () => {
     //console.log(supplier, url);
 
     let res = await fetchRest(url, getOptions, 4);
-    let records: Knackbuyers[] = res.records;
 
     // console.log(res);
 
     let count = 0;
-    if (records.length) {
-      for (let index = 0; index < records.length; index++) {
-        const record = records[index];
+    if (res.records.length) {
+      for (let index = 0; index < res.records.length; index++) {
+        const record = res.records[index];
 
         if (true) {
-          //console.log("record", record);
+          console.log("record", record);
 
-          console.log(record[buyersEnum.client_company_name]);
-          logger.info(
-            `migrating ${record[buyersEnum.client_company_name]} to postgres`
-          );
+          //TODO: INSERT TO POSTGRES the records
 
-          logger.info(
-            ` action ${
-              buyers_rule_list[record[buyersEnum.client_company_name]]
-            }`
-          );
-
-          if (
-            record[buyersEnum.client_company_name] &&
-            buyers_rule_list[
-              record[buyersEnum.client_company_name].replace(/\s/g, "")
-            ]
-          ) {
-            console.log(
-              buyers_rule_list[
-                record[buyersEnum.client_company_name].replace(/\s/g, "")
-              ]
-            );
-
-            let currentRule =
-              buyers_rule_list[
-                record[buyersEnum.client_company_name].replace(/\s/g, "")
-              ];
-
-            if (currentRule === "migrate") {
-              //migrate
-              console.log("migrate");
-            } else if (currentRule === "ignore") {
-              //ignore
-              console.log("ignore");
-            } else if (currentRule === "archive") {
-              //archive
-              console.log("archive");
-            }
-
-            //TODO: HANDLE CASE WHEN THERE IS NO FILED_RAW XXX VALUE
-
-            //TODO: INSERT TO POSTGRES the records
-
-            // const createMany = await prisma.buyers.createMany({
-            //   data: [
-            //     {
-            //       name: res[buyersEnum.client_company_name],
-            //       email: res[buyersEnum.client_company_name],
-            //     },
-            //     {
-            //       name: res[buyersEnum.client_company_name],
-            //       email: res[buyersEnum.client_company_name],
-            //     }, // Duplicate unique key!
-            //     {
-            //       name: res[buyersEnum.client_company_name],
-            //       email: res[buyersEnum.client_company_name],
-            //     },
-            //   ],
-            //   //skipDuplicates: true, // Skip 'Bobo'
-            // });
-          } else {
-            logger.error(
-              ` ${
-                record[buyersEnum.client_company_name]
-              } no rule for this buyer record`
-            );
-            console.log(
-              ` ${
-                record[buyersEnum.client_company_name]
-              } no rule for this buyer record`
-            );
-          }
+          // const createMany = await prisma.buyers.createMany({
+          //   data: [
+          //     {
+          //       name: res[buyersEnum.client_company_name],
+          //       email: res[buyersEnum.client_company_name],
+          //     },
+          //     {
+          //       name: res[buyersEnum.client_company_name],
+          //       email: res[buyersEnum.client_company_name],
+          //     }, // Duplicate unique key!
+          //     {
+          //       name: res[buyersEnum.client_company_name],
+          //       email: res[buyersEnum.client_company_name],
+          //     },
+          //   ],
+          //   //skipDuplicates: true, // Skip 'Bobo'
+          // });
         }
         count += 1;
       }
@@ -217,6 +163,39 @@ export const buyersMigrate = async () => {
     console.log("count of recors page 1  ", count);
     logger.info("count of recors page 1 " + count);
 
+    if (res["total_pages"] > 1) {
+      return; //TODO: DELETE RETURN AFTER TESTING
+      for (let pages = 2; pages <= res["total_pages"]; pages++) {
+        let url =
+          baseUrl +
+          "?filters=" +
+          encodeURIComponent(JSON.stringify(filters)) +
+          "&page=" +
+          pages +
+          "&rows_per_page=" +
+          1000;
+
+        res = await fetchRest(url, getOptions, 4);
+
+        let count = 0;
+
+        if (res.records.length) {
+          for (let index = 0; index < res.records.length; index++) {
+            const record = res.records[index];
+
+            if (true) {
+              console.log("record", record);
+              //TODO: INSERT TO POSTGRES
+            }
+
+            count += 1;
+          }
+        }
+
+        console.log("page: ", pages, "count ", count);
+        logger.info("page: " + pages + "count " + count);
+      }
+    }
     await new Promise((resolve) => setTimeout(resolve, 1000));
     //  }
   } catch (error) {

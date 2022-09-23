@@ -9,43 +9,6 @@ import {
   yesNo,
 } from "./types";
 
-//* multiple choise fileds should be selected from filed without raw, because sometimes raw brings weird random values
-
-// {
-//   id: '590c8c4e26665c32aa9a3c87',
-//   field_938: '',
-//   field_939: '',
-//   field_946: '',
-//   field_952: '',
-//   field_1207: '',
-//   field_1214: '',
-//   field_1214_raw: [Object],
-//   field_1215: '<a href="mailto:kvincent@bgstaffing.com">kvincent@bgstaffing.com</a>',
-//   field_1215_raw: [Object],
-//   field_1412: '',
-//   field_1412_raw: [Object],
-//   field_1413: '',
-//   field_1413_raw: [Object],
-//   field_1538: '',
-//   field_1538_raw: '',
-//   field_1595: '',
-//   field_1818: '$101,172.32',
-//   field_1818_raw: 101172.31999999999,
-//   field_1815: '',
-//   field_1816: '',
-//   field_1817: '',
-//   field_1819: '',
-//   field_1820: '',
-//   field_1821: '',
-//   field_1901: '',
-//   field_1986: 1,
-//   field_1986_raw: 1,
-//   field_1991: '<span class="583daeec58256f6a2ee58db4">Accenture LLP (USA)</span>',
-//   field_1991_raw: [Array],
-//   field_2249: '',
-//   field_2261: ''
-
-// },
 //* multiple create an enum that has the values of the fields in the comment above, in the same order
 
 export enum supplierEnum {

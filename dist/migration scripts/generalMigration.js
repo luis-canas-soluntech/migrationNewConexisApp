@@ -3,11 +3,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.buyersMigrate = void 0;
+exports.generalMigrate = void 0;
 const objectIDs_1 = require("../KnackTables/objectIDs");
 const fetchRest_1 = __importDefault(require("../util/fetchRest"));
 const winstonLogger_1 = __importDefault(require("../util/winstonLogger"));
-const baseUrl = `https://api.knack.com/v1/objects/${objectIDs_1.objectTables.Buyers}/records`;
+const baseUrl = `https://api.knack.com/v1/objects/${objectIDs_1.objectTables.rateCards}/records`;
 const getOptions = {
     method: "GET",
     headers: {
@@ -83,7 +83,7 @@ let buyers = {
 let filters = {
     rules: [],
 };
-const buyersMigrate = async () => {
+const generalMigrate = async () => {
     try {
         let url = baseUrl +
             "?filters=" +
@@ -137,5 +137,5 @@ const buyersMigrate = async () => {
         winstonLogger_1.default.error(error);
     }
 };
-exports.buyersMigrate = buyersMigrate;
+exports.generalMigrate = generalMigrate;
 //# sourceMappingURL=generalMigration.js.map

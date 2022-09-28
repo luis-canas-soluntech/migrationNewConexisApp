@@ -42,5 +42,6 @@ var objectTables;
     objectTables["Proposer"] = "object_23";
     objectTables["Daily_scan"] = "object_62";
     objectTables["ProcessLog"] = "object_68";
+    objectTables["rateCards"] = "object_27";
 })(objectTables = exports.objectTables || (exports.objectTables = {}));
 //# sourceMappingURL=objectIDs.js.map

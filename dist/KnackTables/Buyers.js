@@ -76,4 +76,4 @@ var buyersEnum;
     buyersEnum["is_using_amendments"] = "field_2223_raw";
     buyersEnum["updated_on"] = "field_2260_raw";
 })(buyersEnum = exports.buyersEnum || (exports.buyersEnum = {}));
-//# sourceMappingURL=tableBuyers.js.map
+//# sourceMappingURL=Buyers.js.map

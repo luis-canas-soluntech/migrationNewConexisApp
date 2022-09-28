@@ -10,6 +10,7 @@ import {
 } from "./types";
 
 //* multiple choise fileds should be selected from filed without raw, because sometimes raw brings weird random values
+//TODO: REVIEW THE FILEDS AND IF THIS TABLE IS REAL OR NOT
 export enum buyersEnum {
   record_id = "id",
   client_company_name = "field_1_raw",

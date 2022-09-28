@@ -101,4 +101,4 @@ var accountProposer;
     accountProposer["permission_access_multiple_buyers"] = "field_1401_raw";
     accountProposer["buyer"] = "field_1994_raw";
 })(accountProposer = exports.accountProposer || (exports.accountProposer = {}));
-//# sourceMappingURL=tableAccounts.js.map
+//# sourceMappingURL=Accounts.js.map

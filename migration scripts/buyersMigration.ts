@@ -3,7 +3,7 @@
 //file to migrate the buyers table from knack to postgres
 
 import { objectTables } from "../KnackTables/objectIDs";
-import { buyersEnum, Knackbuyers } from "../KnackTables/tableBuyers";
+import { buyersEnum, Knackbuyers } from "../KnackTables/Buyers";
 import prisma from "../prismaClient";
 import fetchRest from "../util/fetchRest";
 import logger from "../util/winstonLogger";

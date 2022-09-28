@@ -7,24 +7,525 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Users {
-  id        Int      @id @default(autoincrement())
-  firstName String?  @db.VarChar(255)
-  lastName  String?  @db.VarChar(255)
-  isActive  Boolean? @default(true)
-  createdAt DateTime @db.Timestamptz(6)
-  updatedAt DateTime @db.Timestamptz(6)
+model accounts {
+  id                                                                                    String                         @id @db.Uuid
+  id_tenant                                                                             BigInt
+  first_name                                                                            String
+  last_name                                                                             String
+  full_name                                                                             String
+  user_roles                                                                            String[]
+  email                                                                                 String?
+  user_status                                                                           String                         @default("active")
+  password                                                                              String?
+  permissioned_buyers                                                                   String[]
+  logged_buyer                                                                          String?                        @db.Uuid
+  permissiones_suppliers                                                                String[]
+  supplier                                                                              String?
+  worker_id                                                                             String?
+  worker_status                                                                         String?
+  status_attachment                                                                     String?
+  street_address_line1                                                                  String?
+  street_address_line2                                                                  String?
+  city                                                                                  String?
+  province_region                                                                       String?
+  postal_code                                                                           String?
+  country                                                                               String?
+  work_phone                                                                            String?
+  mobile_phone                                                                          String?
+  cell_phone                                                                            String?
+  personal_email                                                                        String?
+  avaliable_date                                                                        DateTime?                      @db.Timestamptz(6)
+  pay_rate                                                                              Decimal?                       @db.Decimal
+  salary                                                                                Decimal?                       @db.Decimal
+  years_of_experience                                                                   Int?
+  should_rehire                                                                         Boolean?
+  rating                                                                                Int?
+  skill_category                                                                        String?
+  primary_skills                                                                        String?
+  worker_summary                                                                        String?
+  resume                                                                                String?
+  resume_text                                                                           String?
+  buyer_or_contrax_applicant                                                            String?
+  environmental_policy_reviewed_and_signed                                              String?
+  enviromental_policy_file                                                              String?
+  business_units                                                                        String[]
+  import_notes                                                                          String?
+  pin_number                                                                            String?
+  number_of_training_quizzes_passed                                                     Int?
+  archived                                                                              String?
+  created_by                                                                            String?
+  created_at                                                                            DateTime?                      @db.Timestamptz(6)
+  updated_at                                                                            DateTime?                      @db.Timestamptz(6)
+  tenants                                                                               tenants                        @relation(fields: [id_tenant], references: [id], onDelete: NoAction)
+  audit_logs                                                                            audit_logs[]
+  bussines_units_accountsTobussines_units_created_by                                    bussines_units[]               @relation("accountsTobussines_units_created_by")
+  bussines_units_accountsTobussines_units_updated_by                                    bussines_units[]               @relation("accountsTobussines_units_updated_by")
+  buyer_onboarding_items                                                                buyer_onboarding_items[]
+  buyers_accountsTobuyers_account_manager_id                                            buyers[]                       @relation("accountsTobuyers_account_manager_id")
+  buyers_accountsTobuyers_account_owner_id                                              buyers[]                       @relation("accountsTobuyers_account_owner_id")
+  buyers_accountsTobuyers_contract_approver_id                                          buyers[]                       @relation("accountsTobuyers_contract_approver_id")
+  buyers_accountsTobuyers_created_by                                                    buyers[]                       @relation("accountsTobuyers_created_by")
+  buyers_accountsTobuyers_updated_by                                                    buyers[]                       @relation("accountsTobuyers_updated_by")
+  client_flowdowns_accountsToclient_flowdowns_created_by                                client_flowdowns[]             @relation("accountsToclient_flowdowns_created_by")
+  client_flowdowns_accountsToclient_flowdowns_updated_by                                client_flowdowns[]             @relation("accountsToclient_flowdowns_updated_by")
+  cost_center_accountsTocost_center_created_by                                          cost_center[]                  @relation("accountsTocost_center_created_by")
+  cost_center_accountsTocost_center_updated_by                                          cost_center[]                  @relation("accountsTocost_center_updated_by")
+  countries_accountsTocountries_created_by                                              countries[]                    @relation("accountsTocountries_created_by")
+  countries_accountsTocountries_updated_by                                              countries[]                    @relation("accountsTocountries_updated_by")
+  gl_codes_accountsTogl_codes_created_by                                                gl_codes[]                     @relation("accountsTogl_codes_created_by")
+  gl_codes_accountsTogl_codes_updated_by                                                gl_codes[]                     @relation("accountsTogl_codes_updated_by")
+  rate_cards_accountsTorate_cards_created_by                                            rate_cards[]                   @relation("accountsTorate_cards_created_by")
+  rate_cards_accountsTorate_cards_updated_by                                            rate_cards[]                   @relation("accountsTorate_cards_updated_by")
+  skill_sets_accountsToskill_sets_created_by                                            skill_sets[]                   @relation("accountsToskill_sets_created_by")
+  skill_sets_accountsToskill_sets_updated_by                                            skill_sets[]                   @relation("accountsToskill_sets_updated_by")
+  state_and_provinces_accountsTostate_and_provinces_created_by                          state_and_provinces[]          @relation("accountsTostate_and_provinces_created_by")
+  state_and_provinces_accountsTostate_and_provinces_updated_by                          state_and_provinces[]          @relation("accountsTostate_and_provinces_updated_by")
+  supplier_flowdowns_accountsTosupplier_flowdowns_created_by                            supplier_flowdowns[]           @relation("accountsTosupplier_flowdowns_created_by")
+  supplier_flowdowns_accountsTosupplier_flowdowns_updated_by                            supplier_flowdowns[]           @relation("accountsTosupplier_flowdowns_updated_by")
+  suppliers_accountsTosuppliers_application_reviewed_by                                 suppliers[]                    @relation("accountsTosuppliers_application_reviewed_by")
+  suppliers_accountsTosuppliers_created_by                                              suppliers[]                    @relation("accountsTosuppliers_created_by")
+  suppliers_accountsTosuppliers_updated_by                                              suppliers[]                    @relation("accountsTosuppliers_updated_by")
+  suppliers_amendments_accountsTosuppliers_amendments_created_by                        suppliers_amendments[]         @relation("accountsTosuppliers_amendments_created_by")
+  suppliers_amendments_accountsTosuppliers_amendments_updated_by                        suppliers_amendments[]         @relation("accountsTosuppliers_amendments_updated_by")
+  work_shifts_accountsTowork_shifts_created_by                                          work_shifts[]                  @relation("accountsTowork_shifts_created_by")
+  work_shifts_accountsTowork_shifts_updated_by                                          work_shifts[]                  @relation("accountsTowork_shifts_updated_by")
+  worker_onboarding_activities_accountsToworker_onboarding_activities_completed_by      worker_onboarding_activities[] @relation("accountsToworker_onboarding_activities_completed_by")
+  worker_onboarding_activities_accountsToworker_onboarding_activities_created_by        worker_onboarding_activities[] @relation("accountsToworker_onboarding_activities_created_by")
+  worker_onboarding_activities_accountsToworker_onboarding_activities_files_uploaded_by worker_onboarding_activities[] @relation("accountsToworker_onboarding_activities_files_uploaded_by")
+  worker_onboarding_activities_accountsToworker_onboarding_activities_updated_by        worker_onboarding_activities[] @relation("accountsToworker_onboarding_activities_updated_by")
+
+  @@index([id_tenant, email, created_at], map: "tenant-email-date-index")
 }
 
-model accounts {
-  id_account  BigInt    @id @default(autoincrement())
-  name        String
-  password    String
-  user_type   String?
-  email       String
-  user_status String?   @default("active")
-  user_roles  String[]
-  created_by  BigInt?
-  CreatedAt   DateTime? @db.Timestamptz(6)
-  updatedAt   DateTime  @db.Timestamptz(6)
+model audit_logs {
+  id             BigInt    @id @default(autoincrement())
+  dml_table      String
+  object_id      String
+  dml_action     String
+  old_values     Json?
+  updated_values Json?
+  observation    String?
+  updated_by     String?   @db.Uuid
+  user_postgres  String?
+  id_tenant      BigInt?
+  created_at     DateTime? @db.Timestamptz(6)
+  tenants        tenants?  @relation(fields: [id_tenant], references: [id], onDelete: Cascade)
+  accounts       accounts? @relation(fields: [updated_by], references: [id], onDelete: Cascade)
+
+  @@index([dml_table, id_tenant, created_at], map: "table-tenant-date-index")
+  @@index([dml_table, object_id, id_tenant], map: "table-tenant-objectid-index")
+}
+
+model bussines_units {
+  id                                           String    @id @db.Uuid
+  archived                                     Boolean?
+  buyer                                        String?   @db.Uuid
+  business_title                               String?
+  business_unit_number                         String?
+  region                                       String?
+  first_name                                   String?
+  last_name                                    String?
+  primary_email                                String?
+  primary_phone                                String?
+  address                                      String?
+  location                                     String?
+  regional_director_name                       String?
+  regional_director_email                      String?
+  updated_by                                   String?   @db.Uuid
+  created_by                                   String?   @db.Uuid
+  id_tenant                                    BigInt?
+  created_at                                   DateTime? @db.Timestamptz(6)
+  updated_at                                   DateTime? @db.Timestamptz(6)
+  buyers                                       buyers?   @relation(fields: [buyer], references: [id], onDelete: NoAction)
+  accounts_accountsTobussines_units_created_by accounts? @relation("accountsTobussines_units_created_by", fields: [created_by], references: [id], onDelete: Cascade)
+  tenants                                      tenants?  @relation(fields: [id_tenant], references: [id], onDelete: NoAction)
+  accounts_accountsTobussines_units_updated_by accounts? @relation("accountsTobussines_units_updated_by", fields: [updated_by], references: [id], onDelete: Cascade)
+}
+
+model buyer_onboarding_items {
+  id                              Int       @id @default(autoincrement())
+  buyer_id                        String?   @db.Uuid
+  Buyer_onboarding_items          String
+  Buyer_onboarding_items_sequence String
+  archived                        Boolean
+  created_by                      String?   @db.Uuid
+  created_at                      DateTime? @db.Timestamptz(6)
+  updated_at                      DateTime? @db.Timestamptz(6)
+  buyers                          buyers?   @relation(fields: [buyer_id], references: [id], onDelete: Cascade)
+  accounts                        accounts? @relation(fields: [created_by], references: [id], onDelete: Cascade)
+}
+
+model buyers {
+  id                                             String                         @id @db.Uuid
+  id_tenant                                      BigInt
+  archived                                       Boolean?
+  is_self_served                                 Boolean?
+  client_company_name                            String?
+  account_manager_id                             String?                        @db.Uuid
+  account_owner_id                               String?                        @db.Uuid
+  primary_contact_name                           String?
+  primary_contact_email                          String?
+  primary_contact_phone                          String?
+  accounts_payable_contact_name                  String?
+  accounts_payable_contact_email                 String?
+  street_address_line1                           String?
+  street_address_line2                           String?
+  city                                           String?
+  province_region                                String?
+  postal_code                                    String?
+  country                                        String?
+  agreement_1                                    String?
+  agreement_2                                    String?
+  agreement_3                                    String?
+  agreement_4                                    String?
+  contract_expiry_date                           DateTime?                      @db.Timestamptz(6)
+  coi                                            String?
+  coi_expiry_date                                DateTime?                      @db.Timestamptz(6)
+  currency                                       String?
+  tax                                            String?
+  vat_amount                                     Decimal?                       @db.Decimal
+  vat_tax_id                                     String?
+  sales_tax_amount                               Decimal?                       @db.Decimal
+  other_tax_id                                   String?
+  payment_terms                                  String?
+  proof_of_inc                                   String?
+  bypass_requisition_approval                    Boolean?
+  bypass_proposal_approval                       Boolean?
+  require_contract_approval                      Boolean?
+  contract_approver_id                           String?                        @db.Uuid
+  legal_name_for_invoicing                       String?
+  enviromental_policy                            Boolean?
+  is_overpayment_allowed                         Boolean?
+  is_using_amendments                            Boolean?
+  created_by                                     String?                        @db.Uuid
+  updated_by                                     String?                        @db.Uuid
+  created_at                                     DateTime?                      @db.Timestamptz(6)
+  updated_at                                     DateTime?                      @db.Timestamptz(6)
+  accounts_accountsTobuyers_account_manager_id   accounts?                      @relation("accountsTobuyers_account_manager_id", fields: [account_manager_id], references: [id], onDelete: Cascade)
+  accounts_accountsTobuyers_account_owner_id     accounts?                      @relation("accountsTobuyers_account_owner_id", fields: [account_owner_id], references: [id], onDelete: Cascade)
+  accounts_accountsTobuyers_contract_approver_id accounts?                      @relation("accountsTobuyers_contract_approver_id", fields: [contract_approver_id], references: [id], onDelete: Cascade)
+  accounts_accountsTobuyers_created_by           accounts?                      @relation("accountsTobuyers_created_by", fields: [created_by], references: [id], onDelete: Cascade)
+  tenants                                        tenants                        @relation(fields: [id_tenant], references: [id], onDelete: NoAction)
+  accounts_accountsTobuyers_updated_by           accounts?                      @relation("accountsTobuyers_updated_by", fields: [updated_by], references: [id], onDelete: Cascade)
+  bussines_units                                 bussines_units[]
+  buyer_onboarding_items                         buyer_onboarding_items[]
+  client_flowdowns                               client_flowdowns[]
+  cost_center                                    cost_center[]
+  gl_codes                                       gl_codes[]
+  rate_cards                                     rate_cards[]
+  supplier_flowdowns                             supplier_flowdowns[]
+  work_shifts                                    work_shifts[]
+  worker_onboarding_activities                   worker_onboarding_activities[]
+}
+
+model client_flowdowns {
+  id                                             String               @id @db.Uuid
+  buyer                                          String?              @db.Uuid
+  client_name                                    String?
+  project_name                                   String?
+  template_flowdown_file                         String?
+  signed_flowdown_file                           String?
+  signed_on                                      DateTime?            @db.Timestamptz(6)
+  attachment_1                                   String?
+  attachment_2                                   String?
+  updated_by                                     String?              @db.Uuid
+  created_by                                     String?              @db.Uuid
+  id_tenant                                      BigInt?
+  created_at                                     DateTime?            @db.Timestamptz(6)
+  updated_at                                     DateTime?            @db.Timestamptz(6)
+  buyers                                         buyers?              @relation(fields: [buyer], references: [id], onDelete: NoAction)
+  accounts_accountsToclient_flowdowns_created_by accounts?            @relation("accountsToclient_flowdowns_created_by", fields: [created_by], references: [id], onDelete: Cascade)
+  tenants                                        tenants?             @relation(fields: [id_tenant], references: [id], onDelete: NoAction)
+  accounts_accountsToclient_flowdowns_updated_by accounts?            @relation("accountsToclient_flowdowns_updated_by", fields: [updated_by], references: [id], onDelete: Cascade)
+  supplier_flowdowns                             supplier_flowdowns[]
+}
+
+model cost_center {
+  id                                        String    @id @db.Uuid
+  buyer                                     String?   @db.Uuid
+  cost_center                               String?
+  is_active                                 Boolean?
+  id_tenant                                 BigInt?
+  updated_by                                String?   @db.Uuid
+  created_by                                String?   @db.Uuid
+  created_at                                DateTime? @db.Timestamptz(6)
+  updated_at                                DateTime? @db.Timestamptz(6)
+  buyers                                    buyers?   @relation(fields: [buyer], references: [id], onDelete: NoAction)
+  accounts_accountsTocost_center_created_by accounts? @relation("accountsTocost_center_created_by", fields: [created_by], references: [id], onDelete: Cascade)
+  tenants                                   tenants?  @relation(fields: [id_tenant], references: [id], onDelete: NoAction)
+  accounts_accountsTocost_center_updated_by accounts? @relation("accountsTocost_center_updated_by", fields: [updated_by], references: [id], onDelete: Cascade)
+}
+
+model countries {
+  id                                      String                @id @db.Uuid
+  country_name                            String?
+  updated_by                              String?               @db.Uuid
+  created_by                              String?               @db.Uuid
+  created_at                              DateTime?             @db.Timestamptz(6)
+  updated_at                              DateTime?             @db.Timestamptz(6)
+  accounts_accountsTocountries_created_by accounts?             @relation("accountsTocountries_created_by", fields: [created_by], references: [id], onDelete: Cascade)
+  accounts_accountsTocountries_updated_by accounts?             @relation("accountsTocountries_updated_by", fields: [updated_by], references: [id], onDelete: Cascade)
+  state_and_provinces                     state_and_provinces[]
+}
+
+model gl_codes {
+  id                                     String    @id @db.Uuid
+  gl_code                                String?
+  buyer_id                               String?   @db.Uuid
+  id_tenant                              BigInt
+  updated_by                             String?   @db.Uuid
+  created_by                             String?   @db.Uuid
+  created_at                             DateTime? @db.Timestamptz(6)
+  updated_at                             DateTime? @db.Timestamptz(6)
+  buyers                                 buyers?   @relation(fields: [buyer_id], references: [id], onDelete: NoAction)
+  accounts_accountsTogl_codes_created_by accounts? @relation("accountsTogl_codes_created_by", fields: [created_by], references: [id], onDelete: NoAction)
+  tenants                                tenants   @relation(fields: [id_tenant], references: [id], onDelete: NoAction)
+  accounts_accountsTogl_codes_updated_by accounts? @relation("accountsTogl_codes_updated_by", fields: [updated_by], references: [id], onDelete: NoAction)
+}
+
+model rate_cards {
+  id                                       String    @id @db.Uuid
+  buyer_id                                 String?   @db.Uuid
+  role                                     String?
+  title_and_description                    String?
+  experience                               String?
+  location                                 String?
+  not_to_exceed_rate                       Decimal?  @db.Decimal(10, 2)
+  skills                                   String[]
+  id_tenant                                BigInt
+  updated_by                               String?   @db.Uuid
+  created_by                               String?   @db.Uuid
+  created_at                               DateTime? @db.Timestamptz(6)
+  updated_at                               DateTime? @db.Timestamptz(6)
+  buyers                                   buyers?   @relation(fields: [buyer_id], references: [id], onDelete: NoAction)
+  accounts_accountsTorate_cards_created_by accounts? @relation("accountsTorate_cards_created_by", fields: [created_by], references: [id], onDelete: Cascade)
+  tenants                                  tenants   @relation(fields: [id_tenant], references: [id], onDelete: NoAction)
+  accounts_accountsTorate_cards_updated_by accounts? @relation("accountsTorate_cards_updated_by", fields: [updated_by], references: [id], onDelete: Cascade)
+}
+
+model skill_sets {
+  id                                       String    @id @db.Uuid
+  skill                                    String?
+  updated_by                               String?   @db.Uuid
+  created_by                               String?   @db.Uuid
+  created_at                               DateTime? @db.Timestamptz(6)
+  updated_at                               DateTime? @db.Timestamptz(6)
+  accounts_accountsToskill_sets_created_by accounts? @relation("accountsToskill_sets_created_by", fields: [created_by], references: [id], onDelete: Cascade)
+  accounts_accountsToskill_sets_updated_by accounts? @relation("accountsToskill_sets_updated_by", fields: [updated_by], references: [id], onDelete: Cascade)
+}
+
+model state_and_provinces {
+  id                                                String     @id @db.Uuid
+  state_or_province_name                            String?
+  abbreviation                                      String?
+  country                                           String?    @db.Uuid
+  tax_rate                                          Decimal?   @db.Decimal(2, 0)
+  updated_by                                        String?    @db.Uuid
+  created_by                                        String?    @db.Uuid
+  created_at                                        DateTime?  @db.Timestamptz(6)
+  updated_at                                        DateTime?  @db.Timestamptz(6)
+  countries                                         countries? @relation(fields: [country], references: [id], onDelete: Cascade)
+  accounts_accountsTostate_and_provinces_created_by accounts?  @relation("accountsTostate_and_provinces_created_by", fields: [created_by], references: [id], onDelete: Cascade)
+  accounts_accountsTostate_and_provinces_updated_by accounts?  @relation("accountsTostate_and_provinces_updated_by", fields: [updated_by], references: [id], onDelete: Cascade)
+}
+
+model supplier_flowdowns {
+  id                                               String            @id @db.Uuid
+  buyer                                            String?           @db.Uuid
+  supplier                                         String?           @db.Uuid
+  client_flowdown                                  String?           @db.Uuid
+  client_name                                      String?
+  project_name                                     String?
+  status                                           String?
+  signed_flowdown_file                             String?
+  flowdown_signed_on                               String?
+  attachment_1                                     String?
+  attachment_2                                     String?
+  updated_by                                       String?           @db.Uuid
+  created_by                                       String?           @db.Uuid
+  id_tenant                                        BigInt?
+  created_at                                       DateTime?         @db.Timestamptz(6)
+  updated_at                                       DateTime?         @db.Timestamptz(6)
+  buyers                                           buyers?           @relation(fields: [buyer], references: [id], onDelete: NoAction)
+  client_flowdowns                                 client_flowdowns? @relation(fields: [client_flowdown], references: [id], onDelete: NoAction)
+  accounts_accountsTosupplier_flowdowns_created_by accounts?         @relation("accountsTosupplier_flowdowns_created_by", fields: [created_by], references: [id], onDelete: Cascade)
+  tenants                                          tenants?          @relation(fields: [id_tenant], references: [id], onDelete: NoAction)
+  suppliers                                        suppliers?        @relation(fields: [supplier], references: [id], onDelete: NoAction)
+  accounts_accountsTosupplier_flowdowns_updated_by accounts?         @relation("accountsTosupplier_flowdowns_updated_by", fields: [updated_by], references: [id], onDelete: Cascade)
+}
+
+model suppliers {
+  id                                                   String                        @id @db.Uuid
+  id_tenant                                            BigInt
+  archived                                             Boolean?
+  supplier_company_name                                String?
+  supplier_code                                        String?
+  buyers                                               String[]
+  supplier_status                                      String?
+  buyer_relationship_contact_name                      String?
+  date_supplier_assigned_by_client                     DateTime?                     @db.Timestamptz(6)
+  date_supplier_signed_agreement                       DateTime?                     @db.Timestamptz(6)
+  agreement_expiry_date                                DateTime?                     @db.Timestamptz(6)
+  agreement_file                                       String?
+  street_address_line1                                 String?
+  street_address_line2                                 String?
+  city                                                 String?
+  province_region                                      String?
+  postal_code                                          String?
+  country                                              String?
+  primary_contact_name                                 String?
+  primary_contact_email                                String?
+  primary_contact_phone                                String?
+  secondary_contact_email                              String?
+  tertiary_contact_email                               String?
+  accounts_receivable_contact_name                     String?
+  accounts_receivable_contact_email                    String?
+  comments                                             String?
+  inmigration_workplace_compliance_file                String?
+  contract_concessions                                 String[]
+  coi                                                  String?
+  coi_expiry_date                                      DateTime?                     @db.Timestamptz(6)
+  rating                                               Decimal?                      @db.Decimal(10, 2)
+  geographic_coverage                                  String[]
+  work_categories_covered                              String[]
+  dunn_and_bradstreet_number                           String?
+  supplier_information_file                            String?
+  tax_id                                               String?
+  proof_of_inc                                         String?
+  is_non_resident_supplier                             Boolean?
+  diversity_certifications                             String[]
+  eft_ach_file                                         String?
+  eft_ach_last_time_updated                            DateTime?                     @db.Timestamptz(6)
+  buyer_contact_name                                   String?
+  buyer_contact_email                                  String?
+  legal_name_for_invoicing                             String?
+  background_check_sign_up                             Boolean?
+  application_attachment                               String?
+  application_rating                                   Decimal?                      @db.Decimal(10, 2)
+  application_status                                   String?
+  date_of_application                                  DateTime?                     @db.Timestamptz(6)
+  is_application_approved                              Boolean?
+  reason_for_rejection                                 String?
+  is_awaiting_buyer                                    Boolean?
+  manual_admin_name                                    String?
+  manual_admin_email                                   String?
+  first_supplier_admin_creation_method                 String?
+  internal_comments                                    String?
+  application_reviewed_by                              String?                       @db.Uuid
+  application_review_timestamp                         DateTime?                     @db.Timestamptz(6)
+  admin_contact_name                                   String?
+  admin_contact_email                                  String?
+  industries                                           String[]
+  top_client_1                                         String?
+  number_of_placements_for_top_client_1                String?
+  top_client_2                                         String?
+  number_of_placements_for_top_client_2                String?
+  top_client_3                                         String?
+  number_of_placements_for_top_client_3                String?
+  send_rejection_email                                 Boolean?
+  offerings                                            String[]
+  created_by                                           String?                       @db.Uuid
+  updated_by                                           String?                       @db.Uuid
+  created_at                                           DateTime?                     @db.Timestamptz(6)
+  updated_at                                           DateTime?                     @db.Timestamptz(6)
+  accounts_accountsTosuppliers_application_reviewed_by accounts?                     @relation("accountsTosuppliers_application_reviewed_by", fields: [application_reviewed_by], references: [id], onDelete: Cascade)
+  accounts_accountsTosuppliers_created_by              accounts?                     @relation("accountsTosuppliers_created_by", fields: [created_by], references: [id], onDelete: Cascade)
+  tenants                                              tenants                       @relation(fields: [id_tenant], references: [id], onDelete: NoAction)
+  accounts_accountsTosuppliers_updated_by              accounts?                     @relation("accountsTosuppliers_updated_by", fields: [updated_by], references: [id], onDelete: Cascade)
+  supplier_flowdowns                                   supplier_flowdowns[]
+  suppliers_amendments                                 suppliers_amendments[]
+  suppliers_number_placements                          suppliers_number_placements[]
+}
+
+model suppliers_amendments {
+  id                                                 Int        @id @default(autoincrement())
+  supplier_id                                        String?    @db.Uuid
+  Buyer_onboarding_items                             String
+  Buyer_onboarding_items_sequence                    String
+  archived                                           Boolean
+  created_by                                         String?    @db.Uuid
+  updated_by                                         String?    @db.Uuid
+  created_at                                         DateTime?  @db.Timestamptz(6)
+  updated_at                                         DateTime?  @db.Timestamptz(6)
+  accounts_accountsTosuppliers_amendments_created_by accounts?  @relation("accountsTosuppliers_amendments_created_by", fields: [created_by], references: [id], onDelete: Cascade)
+  suppliers                                          suppliers? @relation(fields: [supplier_id], references: [id], onDelete: Cascade)
+  accounts_accountsTosuppliers_amendments_updated_by accounts?  @relation("accountsTosuppliers_amendments_updated_by", fields: [updated_by], references: [id], onDelete: Cascade)
+}
+
+model suppliers_number_placements {
+  id                     Int        @id @default(autoincrement())
+  supplier_id            String?    @db.Uuid
+  number_placements      String?
+  number_placements_name String?
+  created_at             DateTime?  @db.Timestamptz(6)
+  updated_at             DateTime?  @db.Timestamptz(6)
+  suppliers              suppliers? @relation(fields: [supplier_id], references: [id], onDelete: Cascade)
+}
+
+model tenants {
+  id                           BigInt                         @id @default(autoincrement())
+  name                         String                         @unique
+  domain                       String
+  logo                         String?
+  description                  String
+  created_at                   DateTime?                      @db.Timestamptz(6)
+  UpdatedAt                    DateTime?                      @db.Timestamptz(6)
+  accounts                     accounts[]
+  audit_logs                   audit_logs[]
+  bussines_units               bussines_units[]
+  buyers                       buyers[]
+  client_flowdowns             client_flowdowns[]
+  cost_center                  cost_center[]
+  gl_codes                     gl_codes[]
+  rate_cards                   rate_cards[]
+  supplier_flowdowns           supplier_flowdowns[]
+  suppliers                    suppliers[]
+  work_shifts                  work_shifts[]
+  worker_onboarding_activities worker_onboarding_activities[]
+}
+
+model work_shifts {
+  id                                        String    @id @db.Uuid
+  buyer_id                                  String?   @db.Uuid
+  work_shift_description                    String?
+  start_time                                DateTime? @db.Time(6)
+  end_time                                  DateTime? @db.Time(6)
+  work_days                                 String[]
+  id_tenant                                 BigInt
+  updated_by                                String?   @db.Uuid
+  created_by                                String?   @db.Uuid
+  created_at                                DateTime? @db.Timestamptz(6)
+  updated_at                                DateTime? @db.Timestamptz(6)
+  buyers                                    buyers?   @relation(fields: [buyer_id], references: [id], onDelete: NoAction)
+  accounts_accountsTowork_shifts_created_by accounts? @relation("accountsTowork_shifts_created_by", fields: [created_by], references: [id], onDelete: Cascade)
+  tenants                                   tenants   @relation(fields: [id_tenant], references: [id], onDelete: NoAction)
+  accounts_accountsTowork_shifts_updated_by accounts? @relation("accountsTowork_shifts_updated_by", fields: [updated_by], references: [id], onDelete: Cascade)
+}
+
+model worker_onboarding_activities {
+  id                                                                String    @id @db.Uuid
+  archived                                                          Boolean?
+  buyer                                                             String?   @db.Uuid
+  onboarding_item                                                   String?
+  is_required                                                       Boolean?
+  is_complete                                                       Boolean?
+  is_active                                                         Boolean?
+  relevant_file_1                                                   String?
+  relevant_file_2                                                   String?
+  relevant_file_3                                                   String?
+  files_uploaded_by                                                 String?   @db.Uuid
+  contract                                                          String?   @db.Uuid
+  proposal                                                          String?   @db.Uuid
+  completed_by                                                      String?   @db.Uuid
+  updated_by                                                        String?   @db.Uuid
+  created_by                                                        String?   @db.Uuid
+  id_tenant                                                         BigInt?
+  created_at                                                        DateTime? @db.Timestamptz(6)
+  updated_at                                                        DateTime? @db.Timestamptz(6)
+  buyers                                                            buyers?   @relation(fields: [buyer], references: [id], onDelete: NoAction)
+  accounts_accountsToworker_onboarding_activities_completed_by      accounts? @relation("accountsToworker_onboarding_activities_completed_by", fields: [completed_by], references: [id], onDelete: Cascade)
+  accounts_accountsToworker_onboarding_activities_created_by        accounts? @relation("accountsToworker_onboarding_activities_created_by", fields: [created_by], references: [id], onDelete: Cascade)
+  accounts_accountsToworker_onboarding_activities_files_uploaded_by accounts? @relation("accountsToworker_onboarding_activities_files_uploaded_by", fields: [files_uploaded_by], references: [id], onDelete: Cascade)
+  tenants                                                           tenants?  @relation(fields: [id_tenant], references: [id], onDelete: NoAction)
+  accounts_accountsToworker_onboarding_activities_updated_by        accounts? @relation("accountsToworker_onboarding_activities_updated_by", fields: [updated_by], references: [id], onDelete: Cascade)
 }

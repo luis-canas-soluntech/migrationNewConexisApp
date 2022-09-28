@@ -39,4 +39,6 @@ export enum objectTables {
   Proposer = "object_23",
   Daily_scan = "object_62",
   ProcessLog = "object_68",
+
+  rateCards = "object_27",
 }

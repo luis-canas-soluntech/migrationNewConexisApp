@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.suppliersMigrate = void 0;
 const objectIDs_1 = require("../KnackTables/objectIDs");
-const tableSuppliers_1 = require("../KnackTables/tableSuppliers");
+const Suppliers_1 = require("../KnackTables/Suppliers");
 const fetchRest_1 = __importDefault(require("../util/fetchRest"));
 const winstonLogger_1 = __importDefault(require("../util/winstonLogger"));
 const baseUrl = `https://api.knack.com/v1/objects/${objectIDs_1.objectTables.Supplier}/records`;
@@ -689,7 +689,7 @@ let suppliers_rule_list = {
     "Transline Resource Group - Apotex Pharmachem": "migrate",
     "VTech - Apotex Pharmachem": "migrate",
     "We Staff Pros Inc - Apotex Pharmachem": "migrate",
-    "Element Management Solutions": "migrate",
+    "Element Management Solutions": "archive",
     "Bartech - Atos": "migrate",
     "Contrax VMS - Atos": "migrate",
     "Emergitel Inc - Atos": "migrate",
@@ -1040,19 +1040,18 @@ const suppliersMigrate = async () => {
             1000;
         let res = await (0, fetchRest_1.default)(url, getOptions, 4);
         let records = res.records;
-        console.log(res);
         let count = 0;
         if (records.length) {
             for (let index = 0; index < records.length; index++) {
                 const record = records[index];
                 if (true) {
-                    console.log(record[tableSuppliers_1.supplierEnum.supplier_company_name]);
-                    winstonLogger_1.default.info(`migrating ${record[tableSuppliers_1.supplierEnum.supplier_company_name]} to postgres`);
-                    winstonLogger_1.default.info(` action ${suppliers_rule_list[record[tableSuppliers_1.supplierEnum.supplier_company_name]]}`);
-                    if (record[tableSuppliers_1.supplierEnum.supplier_company_name] &&
-                        suppliers_rule_list[record[tableSuppliers_1.supplierEnum.supplier_company_name]]) {
-                        console.log(suppliers_rule_list[record[tableSuppliers_1.supplierEnum.supplier_company_name]]);
-                        let currentRule = suppliers_rule_list[record[tableSuppliers_1.supplierEnum.supplier_company_name]];
+                    console.log(record[Suppliers_1.supplierEnum.supplier_company_name]);
+                    winstonLogger_1.default.info(`migrating ${record[Suppliers_1.supplierEnum.supplier_company_name]} to postgres`);
+                    winstonLogger_1.default.info(` action ${suppliers_rule_list[record[Suppliers_1.supplierEnum.supplier_company_name]]}`);
+                    if (record[Suppliers_1.supplierEnum.supplier_company_name] &&
+                        suppliers_rule_list[record[Suppliers_1.supplierEnum.supplier_company_name]]) {
+                        console.log(suppliers_rule_list[record[Suppliers_1.supplierEnum.supplier_company_name]]);
+                        let currentRule = suppliers_rule_list[record[Suppliers_1.supplierEnum.supplier_company_name]];
                         if (currentRule === "migrate") {
                             console.log("migrate");
                         }
@@ -1064,8 +1063,8 @@ const suppliersMigrate = async () => {
                         }
                     }
                     else {
-                        winstonLogger_1.default.error(` ${record[tableSuppliers_1.supplierEnum.supplier_company_name]} no rule for this buyer record`);
-                        console.log(` ${record[tableSuppliers_1.supplierEnum.supplier_company_name]} no rule for this buyer record`);
+                        winstonLogger_1.default.error(` ${record[Suppliers_1.supplierEnum.supplier_company_name]} no rule for this buyer record`);
+                        console.log(` ${record[Suppliers_1.supplierEnum.supplier_company_name]} no rule for this buyer record`);
                     }
                 }
                 count += 1;

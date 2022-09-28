@@ -1,4 +1,5 @@
 import { buyersMigrate } from "./migration scripts/buyersMigration";
+import { generalMigrate } from "./migration scripts/generalMigration";
 import { suppliersMigrate } from "./migration scripts/suppliersMigration";
 import fetchRest from "./util/fetchRest";
 import logger from "./util/winstonLogger";
@@ -13,7 +14,8 @@ const init = async () => {
     //accounts user tables
     //await accountsMigrate();
     //await buyersMigrate(); //depends only on users accounts for the connections
-    await suppliersMigrate(); //depends only on users accounts for the connections
+    await generalMigrate();
+    //await suppliersMigrate(); //depends only on users accounts for the connections
     await new Promise((resolve) => setTimeout(resolve, 1000));
     //  }
   } catch (error) {

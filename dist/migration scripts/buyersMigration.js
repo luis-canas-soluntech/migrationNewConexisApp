@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.buyersMigrate = void 0;
 const objectIDs_1 = require("../KnackTables/objectIDs");
-const tableBuyers_1 = require("../KnackTables/tableBuyers");
+const Buyers_1 = require("../KnackTables/Buyers");
 const fetchRest_1 = __importDefault(require("../util/fetchRest"));
 const winstonLogger_1 = __importDefault(require("../util/winstonLogger"));
 const baseUrl = `https://api.knack.com/v1/objects/${objectIDs_1.objectTables.Buyers}/records`;
@@ -21,6 +21,9 @@ let buyers_rule_list = {
     AcmeMSP: "ignore",
     "A.CLighting": "archive",
     "ACMETradingCompany(SS)": "ignore",
+    "AccentureInc(Canada)CAD": "ignore",
+    "AccentureInc(Canada)USD": "ignore",
+    "AccentureLLP(USA)": "ignore",
     AdvanTec: "migrate",
     AlbanyPackaging: "migrate",
     "ApotexInc(Canada)": "migrate",
@@ -49,7 +52,7 @@ let buyers_rule_list = {
     iPlaceUSA: "ignore",
     "Johnson&Johnson": "migrate",
     KICanada: "migrate",
-    KPMIndustries: "migrate",
+    KPMIndustries: "archive",
     KPMGCanada: "ignore",
     "L’ORÉALCANADAINC.": "migrate",
     "MSIExpress,Inc.": "ignore",
@@ -74,6 +77,7 @@ let buyers_rule_list = {
     SPICYBOYS: "ignore",
     Synovos: "migrate",
     "TestBuyer(SCI)": "ignore",
+    BAGELBOYS: "ignore",
     THEBAGELBOYS: "ignore",
     TheBankofNovaScotia: "migrate",
     THESEARCHGROUP: "migrate",
@@ -100,13 +104,13 @@ const buyersMigrate = async () => {
             for (let index = 0; index < records.length; index++) {
                 const record = records[index];
                 if (true) {
-                    console.log(record[tableBuyers_1.buyersEnum.client_company_name]);
-                    winstonLogger_1.default.info(`migrating ${record[tableBuyers_1.buyersEnum.client_company_name]} to postgres`);
-                    winstonLogger_1.default.info(` action ${buyers_rule_list[record[tableBuyers_1.buyersEnum.client_company_name]]}`);
-                    if (record[tableBuyers_1.buyersEnum.client_company_name] &&
-                        buyers_rule_list[record[tableBuyers_1.buyersEnum.client_company_name].replace(/\s/g, "")]) {
-                        console.log(buyers_rule_list[record[tableBuyers_1.buyersEnum.client_company_name].replace(/\s/g, "")]);
-                        let currentRule = buyers_rule_list[record[tableBuyers_1.buyersEnum.client_company_name].replace(/\s/g, "")];
+                    console.log(record[Buyers_1.buyersEnum.client_company_name]);
+                    winstonLogger_1.default.info(`migrating ${record[Buyers_1.buyersEnum.client_company_name]} to postgres`);
+                    winstonLogger_1.default.info(` action ${buyers_rule_list[record[Buyers_1.buyersEnum.client_company_name]]}`);
+                    if (record[Buyers_1.buyersEnum.client_company_name] &&
+                        buyers_rule_list[record[Buyers_1.buyersEnum.client_company_name].replace(/\s/g, "")]) {
+                        console.log(buyers_rule_list[record[Buyers_1.buyersEnum.client_company_name].replace(/\s/g, "")]);
+                        let currentRule = buyers_rule_list[record[Buyers_1.buyersEnum.client_company_name].replace(/\s/g, "")];
                         if (currentRule === "migrate") {
                             console.log("migrate");
                         }
@@ -118,8 +122,8 @@ const buyersMigrate = async () => {
                         }
                     }
                     else {
-                        winstonLogger_1.default.error(` ${record[tableBuyers_1.buyersEnum.client_company_name]} no rule for this buyer record`);
-                        console.log(` ${record[tableBuyers_1.buyersEnum.client_company_name]} no rule for this buyer record`);
+                        winstonLogger_1.default.error(` ${record[Buyers_1.buyersEnum.client_company_name]} no rule for this buyer record`);
+                        console.log(` ${record[Buyers_1.buyersEnum.client_company_name]} no rule for this buyer record`);
                     }
                 }
                 count += 1;

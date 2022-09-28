@@ -3,12 +3,12 @@
 //file to migrate the buyers table from knack to postgres
 
 import { objectTables } from "../KnackTables/objectIDs";
-import { buyersEnum } from "../KnackTables/tableBuyers";
+import { buyersEnum } from "../KnackTables/Buyers";
 import prisma from "../prismaClient";
 import fetchRest from "../util/fetchRest";
 import logger from "../util/winstonLogger";
 
-const baseUrl = `https://api.knack.com/v1/objects/${objectTables.Buyers}/records`;
+const baseUrl = `https://api.knack.com/v1/objects/${objectTables.rateCards}/records`;
 
 const getOptions = {
   method: "GET",
@@ -105,7 +105,7 @@ let filters = {
   ],
 };
 
-export const buyersMigrate = async () => {
+export const generalMigrate = async () => {
   try {
     // Request route
 

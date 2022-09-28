@@ -46,4 +46,4 @@ var accountWorker;
     accountWorker["import_notes"] = "field_2143_raw";
     accountWorker["pin_number"] = "field_2248_raw";
 })(accountWorker = exports.accountWorker || (exports.accountWorker = {}));
-//# sourceMappingURL=tableWorkers.js.map
+//# sourceMappingURL=Workers.js.map
